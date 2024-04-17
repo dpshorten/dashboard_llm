@@ -21,4 +21,4 @@ RUN pip install -i https://pypi.org/simple/ bitsandbytes
 
 COPY dashboard_llm/ ./
 
-CMD python -u llm_api.py
+CMD python -u llm_api.py parameters/llm_deployment_parameters.yaml
