@@ -37,6 +37,9 @@ from typing import Dict, Any
 
 import time
 
+dict_local_parameters = yaml.safe_load(open(sys.argv[1], "r"))
+dict_global_parameters = yaml.safe_load(open(dict_local_parameters["global parameters path"], "r"))
+
 app = FastAPI()
 
 print("pre init")
@@ -58,7 +61,7 @@ print(next(model.parameters()).is_cuda)
 #model.to('cuda')
 #print(next(model.parameters()).is_cuda)
 
-time.sleep(90)
+time.sleep(10)
 tokenizer = AutoTokenizer.from_pretrained(new_model_path)
 
                                              
@@ -84,7 +87,7 @@ Doc_Names =  ["Fengyun-2D", "Fengyun-2E", "Fengyun-2F", "Fengyun-2H", "Fengyun-4
 
 i = 0
 for sat in Doc_Names:
-    file_name = f'/shared_volume/llm_text_files/{sat}.txt'
+    file_name = f'{dict_global_parameters["llm files directory"]}{sat}.txt'
     with open(file_name, 'r') as file:
       file_text = file.read()
       text_data.append({'docno': i, 'title':sat, 'text': file_text})
@@ -155,7 +158,7 @@ def QAbot(query, chat_history):
 	title = df1["title"][int(result["docno"][0])]
 	print(f'Document chosen: {title}')
 	
-	loader = UnstructuredFileLoader("/shared_volume/llm_text_files/"+str(title)+".txt")
+	loader = UnstructuredFileLoader(dict_global_parameters["llm files directory"]+str(title)+".txt")
 	documents = loader.load()
 
 	#print("Document loader is done!")

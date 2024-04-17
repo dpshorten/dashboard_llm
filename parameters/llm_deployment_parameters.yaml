@@ -1,0 +1,2 @@
+is deployment: True
+global parameters path: /shared_volume/global_dashboard_parameters/global_deployment_parameters.yaml
