@@ -1,0 +1,14 @@
+langchain
+langchain-community
+huggingface_hub
+transformers
+unstructured
+torch
+ipywidgets
+python-terrier
+pandas
+fastapi
+uvicorn
+sentence-transformers
+faiss-gpu
+accelerate
