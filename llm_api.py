@@ -52,7 +52,7 @@ os.environ['PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION'] = 'python'
 chat_history = []
 
 # Specify the path to the saved model
-new_model_path = "./Llama-2-13b-chat-hf_27_3_24"
+new_model_path = "./Llama-2-7b-chat-hf"
 
 # Load the pretrained model
 model = AutoModelForCausalLM.from_pretrained(new_model_path,torch_dtype=torch.float16,
