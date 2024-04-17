@@ -66,7 +66,7 @@ time.sleep(10)
 tokenizer = AutoTokenizer.from_pretrained(new_model_path)
 
                                              
-print("Model are created!")
+print("Model created!")
 
 pipe = pipeline("text-generation",
                 model=model,
@@ -189,7 +189,7 @@ def QAbot(query, chat_history):
 print("QAbot created!")
   
 @app.post("/chatbot_query/")
-async def input_query(request: Dict[Any, Any]):
+async def chatbot_query(request: Dict[Any, Any]):
 	chat_history=[]
 	print("request received")
 	query = request["query"]
