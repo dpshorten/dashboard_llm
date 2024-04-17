@@ -167,22 +167,25 @@ def QAbot(query, chat_history):
 	text_splitter=CharacterTextSplitter(separator='\n',
                                     chunk_size=1500,
                                     chunk_overlap=50)
-	text_chunks=text_splitter.split_documents(documents)
 
+	text_chunks=text_splitter.split_documents(documents)
 
 	embeddings = HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2',model_kwargs={'device': 'cuda'})
 
-	#print("Embeddings are created!")
-
-
-	                
 	llm=HuggingFacePipeline(pipeline=pipe, model_kwargs={'temperature':0.5})
 	vectorstore = FAISS.from_documents(text_chunks, embeddings)
 	#chain =  ConversationalRetrievalChain.from_llm(llm=llm, chain_type = "stuff",return_source_documents=True, retriever=vectorstore.as_retriever(), get_chat_history = None)
-	chain =  ConversationalRetrievalChain.from_llm(llm=llm, chain_type = "stuff",return_source_documents=False, retriever=vectorstore.as_retriever(), get_chat_history = None)
+	chain =  ConversationalRetrievalChain.from_llm(
+		llm=llm,
+		chain_type = "stuff",
+		return_source_documents=False,
+		retriever=vectorstore.as_retriever(),
+		get_chat_history = None
+	)
 	#print(chat_history)
 	#chain =  RetrievalQA.from_chain_type(llm=llm, chain_type = "stuff",return_source_documents=True, retriever=vectorstore.as_retriever())
-	result=chain.invoke({"question": query, "chat_history": chat_history}, return_only_outputs=True)
+	#result=chain.invoke({"question": query, "chat_history": chat_history}, return_only_outputs=True)
+	result = chain.invoke({"question": query, "chat_history": chat_history})
 	wrapped_text = textwrap.fill(result['answer'], width=500)
 	return wrapped_text
   
