@@ -186,8 +186,8 @@ def QAbot(query, chat_history):
 	#chain =  RetrievalQA.from_chain_type(llm=llm, chain_type = "stuff",return_source_documents=True, retriever=vectorstore.as_retriever())
 	#result=chain.invoke({"question": query, "chat_history": chat_history}, return_only_outputs=True)
 	result = chain.invoke({"question": query, "chat_history": chat_history})
-	wrapped_text = textwrap.fill(result['answer'], width=500)
-	return wrapped_text
+	print("the result:", result)
+	return result['answer']
   
 print("QAbot created!")
   
