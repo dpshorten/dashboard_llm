@@ -9,7 +9,7 @@ from langchain.prompts import PromptTemplate
 from langchain.memory import ConversationBufferMemory
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.chains import RetrievalQA
-from langchain.chains import ConversationalRetrievalChain
+from langchain.chains import ConversationalRetrievalChain, LLMChain
 from langchain.document_loaders import UnstructuredFileLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chains import RetrievalQAWithSourcesChain
@@ -187,8 +187,10 @@ def QAbot(query, chat_history):
 		Helpful answer:
 		""")
 	prompt = PromptTemplate.from_template(template)
+	question_generator_chain = LLMChain(llm=llm, prompt=prompt)
 	chain =  ConversationalRetrievalChain.from_llm(
-		llm=llm,
+		question_generator=question_generator_chain,
+		#llm=llm,
 		prompt=prompt,
 		chain_type = "stuff",
 		return_source_documents=False,
