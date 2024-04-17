@@ -175,22 +175,9 @@ def QAbot(query, chat_history):
 	llm=HuggingFacePipeline(pipeline=pipe, model_kwargs={'temperature':0.5})
 	vectorstore = FAISS.from_documents(text_chunks, embeddings)
 	#chain =  ConversationalRetrievalChain.from_llm(llm=llm, chain_type = "stuff",return_source_documents=True, retriever=vectorstore.as_retriever(), get_chat_history = None)
-	template = (
-		"Combine the chat history and follow up question into "
-		"a standalone question. Chat History: {chat_history}"
-		"Follow up question: {question}"
-		"""Use the following pieces of information to answer the user's question.
-		If you don't know the answer, just say that you don't know, don't try to make up an answer.
-		Context: {context}
-		Question: {question}
-		Only return the helpful answer below and nothing else.
-		Helpful answer:
-		""")
-	prompt = PromptTemplate.from_template(template)
 	#question_generator_chain = LLMChain(llm=llm, prompt=prompt)
 	chain =  ConversationalRetrievalChain.from_llm(
 		llm=llm,
-		condense_question_prompt=prompt,
 		chain_type = "stuff",
 		return_source_documents=False,
 		return_generated_question = True,
@@ -201,7 +188,8 @@ def QAbot(query, chat_history):
 	#result=chain.invoke({"question": query, "chat_history": chat_history}, return_only_outputs=True)
 	result = chain({"question": query, "chat_history": chat_history})
 	print("the result:", result)
-	return result['answer']
+	#TODO: this is extremely hacky
+	return result['answer'].split('Helpful Answer:')[-1]
   
 print("QAbot created!")
   
