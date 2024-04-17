@@ -188,12 +188,12 @@ def QAbot(query, chat_history):
 		""")
 	prompt = PromptTemplate.from_template(template)
 	question_generator_chain = LLMChain(llm=llm, prompt=prompt)
-	chain =  ConversationalRetrievalChain.from_llm(
+	chain =  ConversationalRetrievalChain(#.from_llm(
 		question_generator=question_generator_chain,
 		#llm=llm,
-		prompt=prompt,
-		chain_type = "stuff",
-		return_source_documents=False,
+		#prompt=prompt,
+		#chain_type = "stuff",
+		#return_source_documents=False,
 		return_generated_question = True,
 		retriever=vectorstore.as_retriever(),
 	)
