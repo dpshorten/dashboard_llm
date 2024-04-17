@@ -36,6 +36,7 @@ from fastapi.responses import HTMLResponse
 from typing import Dict, Any
 
 import time
+import yaml
 
 dict_local_parameters = yaml.safe_load(open(sys.argv[1], "r"))
 dict_global_parameters = yaml.safe_load(open(dict_local_parameters["global parameters path"], "r"))

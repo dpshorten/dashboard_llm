@@ -12,3 +12,4 @@ uvicorn
 sentence-transformers
 faiss-gpu
 accelerate
+pyyaml
