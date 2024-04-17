@@ -10,14 +10,14 @@ ENV JAVA_HOME /usr/lib/jvm/default-java
 
 WORKDIR /app
 
+COPY resources/pyterrier_jars/ ~/
+COPY resources/pyterrier_jars/ /root/
+
 COPY dashboard_llm/requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install -U langchain-community
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 RUN pip install -i https://pypi.org/simple/ bitsandbytes
-
-COPY pyterrier_jars/ ~/
-COPY pyterrier_jars/ /root/
 
 COPY dashboard_llm/ ./
 
