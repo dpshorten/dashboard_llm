@@ -141,21 +141,13 @@ warnings.filterwarnings("ignore", message="Created a chunk of size .*")
 
 def QAbot(query, chat_history):
 
-    
 	query = query.replace('?','')
-	print(f'QA query:{query}')
-	print(f'QA Query type:{type(query)}')
-
 
 	qe = (pt.rewrite.SequentialDependence() >> 
     	pt.BatchRetrieve(indexref1, wmodel="BM25"))
 
-	
-	
 	result = qe.search(query)
-	
-    
-	print("terrier result", result)
+
 	title = df1["title"][int(result["docno"][0])]
 	print(f'Document chosen: {title}')
 	
@@ -187,7 +179,6 @@ def QAbot(query, chat_history):
 	#chain =  RetrievalQA.from_chain_type(llm=llm, chain_type = "stuff",return_source_documents=True, retriever=vectorstore.as_retriever())
 	#result=chain.invoke({"question": query, "chat_history": chat_history}, return_only_outputs=True)
 	result = chain({"question": query, "chat_history": chat_history})
-	print("the result:", result)
 	#TODO: this is extremely hacky
 	return result['answer'].split('Helpful Answer:')[-1]
   
@@ -199,7 +190,6 @@ async def chatbot_query(request: Dict[Any, Any]):
 	print("request received")
 	query = request["query"]
 	print(f'query:{query}')
-	print(f'Query type:{type(query)}')
 	answer = QAbot(query, chat_history)
 	print(f'answer:{answer}')
 	return {"answer": answer}
