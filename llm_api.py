@@ -179,13 +179,13 @@ def QAbot(query, chat_history):
 		llm=llm,
 		chain_type = "stuff",
 		return_source_documents=False,
+		return_generated_question = True,
 		retriever=vectorstore.as_retriever(),
-		get_chat_history = None
 	)
 	#print(chat_history)
 	#chain =  RetrievalQA.from_chain_type(llm=llm, chain_type = "stuff",return_source_documents=True, retriever=vectorstore.as_retriever())
 	#result=chain.invoke({"question": query, "chat_history": chat_history}, return_only_outputs=True)
-	result = chain.invoke({"question": query, "chat_history": chat_history})
+	result = chain({"question": query, "chat_history": chat_history})
 	print("the result:", result)
 	return result['answer']
   
